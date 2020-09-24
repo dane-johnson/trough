@@ -21,7 +21,7 @@ func _process(delta):
 	var closest
 	var closest_angle = PI
 	for tgt in targets:
-		var basis = fire_position.global_transform.looking_at(tgt.global_transform.origin, Vector3.UP).basis
+		var basis = fire_position.global_transform.looking_at(tgt.get_autoaim_tgt().global_transform.origin, Vector3.UP).basis
 		var angle = forward.angle_to(-basis.z)
 		if angle < closest_angle:
 			closest_angle = angle
@@ -38,7 +38,7 @@ func fire_weapons():
 		
 func do_raytrace_attack():
 	var space_state = player.get_world().get_direct_space_state()
-	var res = space_state.intersect_ray(fire_position.global_transform.origin, fire_position.global_transform.origin - fire_position.global_transform.basis.z * 1000, [player], 0x3)
+	var res = space_state.intersect_ray(fire_position.global_transform.origin, fire_position.global_transform.origin - fire_position.global_transform.basis.z * 1000, [player], 0x5, true, true)
 	if res:
 		var impact_inst = impact.instance()
 		get_tree().get_root().add_child(impact_inst)

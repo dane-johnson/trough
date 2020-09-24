@@ -3,7 +3,7 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
-export(float) var autoaim_help = 4.0
+export(float) var autoaim_help = 2.0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
@@ -13,6 +13,7 @@ onready var camera = $CameraRemote
 ## These values are supplied by the player manager
 var player_manager
 var camera_node
+var screen
 
 enum {ANIM_IDLE, ANIM_RUNNING}
 var anim_state = ANIM_IDLE
@@ -27,6 +28,9 @@ func _ready():
 	var thirdperson_mask = 0x1e & ~(firstperson_mask)
 	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
 	get_node(camera_path).set_cull_mask(0x1 | firstperson_mask)
+	
+	for hitbox in get_hitboxes():
+		hitbox.connect("hurt", self, "hurt")
 
 func _process(_delta):
 	# Handle inputs
@@ -72,7 +76,7 @@ func get_valid_targets():
 	var targets = []
 	for player in player_manager.players:
 		if player != self:
-			targets.append(player)
+			targets = targets + player.get_hitboxes()
 	return targets
 	
 func interpolate_aim(basis: Basis, delta):
@@ -93,6 +97,12 @@ func set_anim_state_idle():
 
 func hurt(dmg_info):
 	health_controller.hurt(dmg_info)
+	
+func health_changed(health_pct):
+	screen.set_blood_opacity(1.0 - health_pct)
 
 func dead(dmg_info):
 	print("Dead")
+	
+func get_hitboxes():
+	return Util.find_all_children_with_type(self, "Hitbox")
