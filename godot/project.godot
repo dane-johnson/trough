@@ -1,0 +1,61 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "Gun",
+"language": "GDScript",
+"path": "res://weapons/Gun.gd"
+}, {
+"base": "Object",
+"class": "Util",
+"language": "GDScript",
+"path": "res://Util.gd"
+} ]
+_global_script_class_icons={
+"Gun": "",
+"Util": ""
+}
+
+[application]
+
+config/name="Trough"
+run/main_scene="res://World.tscn"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
+
+[display]
+
+window/size/width=512
+window/size/height=300
+window/size/fullscreen=true
+
+[filesystem]
+
+import/open_asset_import/use_fbx=false
+
+[layer_names]
+
+3d_render/layer_1="World"
+3d_physics/layer_1="Environment"
+3d_render/layer_2="P1"
+3d_physics/layer_2="Characters"
+3d_render/layer_3="P2"
+3d_physics/layer_3="Hitboxes"
+3d_render/layer_4="P3"
+3d_physics/layer_4="InvisibleWalls"
+3d_render/layer_5="P4"
+
+[physics]
+
+3d/default_gravity=20.0

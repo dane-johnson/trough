@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://player/MoveController.gd" type="Script" id=1]
+[ext_resource path="res://player/Player.gd" type="Script" id=2]
+[ext_resource path="res://weapons/M1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/CharacterModel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://player/WeaponController.gd" type="Script" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[node name="Player" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+collision_layer = 2
+collision_mask = 11
+script = ExtResource( 2 )
+
+[node name="MoveController" type="Node" parent="."]
+script = ExtResource( 1 )
+max_speed = 25.0
+move_accel = 4.0
+
+[node name="WeaponController" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="CameraRemote" type="RemoteTransform" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17878, 0 )
+
+[node name="WeaponSocket" type="Spatial" parent="CameraRemote"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.320019, -0.294549, -0.951001 )
+
+[node name="M1" parent="CameraRemote/WeaponSocket" groups=[
+"firstperson",
+] instance=ExtResource( 3 )]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.5, 0 )
+shape = SubResource( 1 )
+
+[node name="CharacterModel" parent="." groups=[
+"thirdperson",
+] instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.457416, 0 )
+
+[node name="Hand" parent="CharacterModel/Armature/Skeleton" index="1"]
+transform = Transform( -8.46921e-08, 1, -1.49012e-08, -1, -1.09983e-07, -5.69597e-06, -5.6976e-06, 1.49012e-08, 1, 0.724716, 0.488436, -8.9407e-08 )
+
+[node name="M1" parent="CharacterModel/Armature/Skeleton/Hand/WeaponSocket" index="0" instance=ExtResource( 3 )]
+
+[editable path="CharacterModel"]
