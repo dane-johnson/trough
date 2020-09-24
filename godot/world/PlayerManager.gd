@@ -27,6 +27,7 @@ func spawn(player_no: int):
 	var player_inst = player.instance()
 	player_inst.player_no = player_no
 	player_inst.camera_node = screens[player_no - 1].get_node("Viewport/Camera")
+	player_inst.player_manager = self
 	get_tree().get_root().add_child(player_inst)
 	player_inst.global_transform.origin = spawn.global_transform.origin
 	players[player_no - 1] = player_inst

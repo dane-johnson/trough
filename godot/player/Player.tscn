@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://player/MoveController.gd" type="Script" id=1]
 [ext_resource path="res://player/Player.gd" type="Script" id=2]
 [ext_resource path="res://weapons/M1.tscn" type="PackedScene" id=3]
 [ext_resource path="res://player/CharacterModel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://player/WeaponController.gd" type="Script" id=5]
+[ext_resource path="res://player/HealthController.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -22,6 +23,9 @@ move_accel = 4.0
 
 [node name="WeaponController" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="HealthController" type="Node" parent="."]
+script = ExtResource( 6 )
 
 [node name="CameraRemote" type="RemoteTransform" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17878, 0 )

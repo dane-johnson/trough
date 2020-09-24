@@ -4,6 +4,7 @@ class_name Gun
 
 var can_attack = true
 export var attack_rate = 1.0
+export var damage = 30.0
 var attack_timer: Timer
 
 signal attack

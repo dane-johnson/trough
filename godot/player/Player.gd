@@ -3,10 +3,15 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
+export(float) var autoaim_help = 4.0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
+onready var health_controller = $HealthController
 onready var camera = $CameraRemote
+
+## These values are supplied by the player manager
+var player_manager
 var camera_node
 
 enum {ANIM_IDLE, ANIM_RUNNING}
@@ -15,6 +20,7 @@ var anim_state = ANIM_IDLE
 func _ready():
 	move_controller.init(self)
 	weapon_controller.init(self)
+	health_controller.init(self)
 	var camera_path = get_path_to(camera_node)
 	camera.set_remote_node("../" + camera_path)
 	var firstperson_mask = 0x1 << (player_no)
@@ -61,6 +67,21 @@ func dampen_joy_input(input_vec: Vector3):
 	if abs(input_vec.z) < joy_dampen:
 		input_vec.z = 0.0
 	return input_vec
+	
+func get_valid_targets():
+	var targets = []
+	for player in player_manager.players:
+		if player != self:
+			targets.append(player)
+	return targets
+	
+func interpolate_aim(basis: Basis, delta):
+	var old = camera.global_transform.basis
+	var quat = Quat(old.orthonormalized())
+	var new = quat.slerp(Quat(basis), delta * autoaim_help)
+	var euler = new.get_euler()
+	rotation.y = euler.y
+	camera.rotation.x = euler.x
 
 func set_anim_state_run():
 	anim_state = ANIM_RUNNING
@@ -70,5 +91,8 @@ func set_anim_state_idle():
 	anim_state = ANIM_IDLE
 	$CharacterModel/AnimationPlayer.play("aim_gun")
 
-func hurt():
-	pass
+func hurt(dmg_info):
+	health_controller.hurt(dmg_info)
+
+func dead(dmg_info):
+	print("Dead")

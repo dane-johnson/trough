@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
+
+[sub_resource type="SphereMesh" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.875937, 0, 0.482426, 0, 1, 0, -0.482426, 0, -0.875937, 0, 0.5, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Player/CameraRemote" index="1"]
+transform = Transform( 0.088372, 0, 0, 0, 0.088372, 0, 0, 0, 0.088372, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[editable path="Player"]

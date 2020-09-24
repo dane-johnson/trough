@@ -30,11 +30,11 @@ background_sky = SubResource( 4 )
 [node name="World" type="Spatial"]
 
 [node name="PlayerManager" parent="." instance=ExtResource( 1 )]
-num_players = 3
+num_players = 2
 spawn_points_node = NodePath("../SpawnPoints")
 
 [node name="Splitscreen" parent="." instance=ExtResource( 2 )]
-num_players = 3
+num_players = 2
 
 [node name="Environment" type="Spatial" parent="."]
 

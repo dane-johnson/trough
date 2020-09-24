@@ -38,7 +38,6 @@ gdscript/warnings/integer_division=false
 
 window/size/width=512
 window/size/height=300
-window/size/fullscreen=true
 
 [filesystem]
 
