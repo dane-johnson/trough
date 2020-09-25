@@ -3,7 +3,7 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
-export(float) var autoaim_help = 4.0
+export(float) var autoaim_help = 10.0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
@@ -86,10 +86,10 @@ func get_valid_targets():
 			targets = targets + player.get_hitboxes()
 	return targets
 	
-func interpolate_aim(basis: Basis, delta):
+func interpolate_aim(basis: Basis, power: float, delta):
 	var old = camera.global_transform.basis
 	var quat = Quat(old.orthonormalized())
-	var new = quat.slerp(Quat(basis), delta * autoaim_help)
+	var new = quat.slerp(Quat(basis), delta * autoaim_help * power)
 	var euler = new.get_euler()
 	rotation.y = euler.y
 	camera.rotation.x = euler.x

@@ -1,6 +1,6 @@
 extends Node
 
-export var autoaim_cone = 30.0
+export var autoaim_cone = 5.0
 
 var player
 var third_person_weapon: Gun
@@ -40,7 +40,7 @@ func _process(delta):
 			closest = basis
 	## Pull towards nearest angle
 	if closest and closest_angle < deg2rad(autoaim_cone):
-		player.interpolate_aim(closest, delta)
+		player.interpolate_aim(closest, 1.0 - (closest_angle / deg2rad(autoaim_cone)), delta)
 	
 func fire_weapons():
 	if first_person_weapon:
