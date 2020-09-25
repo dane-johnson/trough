@@ -3,12 +3,15 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
-export(float) var autoaim_help = 2.0
+export(float) var autoaim_help = 4.0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
 onready var health_controller = $HealthController
 onready var camera = $CameraRemote
+
+var firstperson_mask
+var thirdperson_mask
 
 ## These values are supplied by the player manager
 var player_manager
@@ -19,15 +22,16 @@ enum {ANIM_IDLE, ANIM_RUNNING}
 var anim_state = ANIM_IDLE
 
 func _ready():
+	var camera_path = get_path_to(camera_node)
+	camera.set_remote_node("../" + camera_path)
+	firstperson_mask = 0x1 << (player_no)
+	thirdperson_mask = 0x1e & ~(firstperson_mask)
+	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
+	get_node(camera_path).set_cull_mask(0x1 | firstperson_mask)
+	
 	move_controller.init(self)
 	weapon_controller.init(self)
 	health_controller.init(self)
-	var camera_path = get_path_to(camera_node)
-	camera.set_remote_node("../" + camera_path)
-	var firstperson_mask = 0x1 << (player_no)
-	var thirdperson_mask = 0x1e & ~(firstperson_mask)
-	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
-	get_node(camera_path).set_cull_mask(0x1 | firstperson_mask)
 	
 	for hitbox in get_hitboxes():
 		hitbox.connect("hurt", self, "hurt")
@@ -58,8 +62,11 @@ func _process(_delta):
 	
 func _input(event):
 	if event is InputEventJoypadButton and event.device == player_no - 1:
-		if event.button_index == JOY_R2 and event.is_pressed():
-			$WeaponController.attack()
+		if event.button_index == JOY_R2:
+			if event.is_pressed():
+				weapon_controller.attack()
+			else:
+				weapon_controller.stop_attack()
 		elif event.button_index == JOY_XBOX_A or event.button_index == JOY_SONY_X:
 			move_controller.jump_pressed = true
 
@@ -106,3 +113,6 @@ func dead(dmg_info):
 	
 func get_hitboxes():
 	return Util.find_all_children_with_type(self, "Hitbox")
+	
+func pickup(weaponid):
+	return weapon_controller.change_weapon(weaponid)

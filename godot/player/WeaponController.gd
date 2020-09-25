@@ -1,18 +1,30 @@
 extends Node
 
+export var autoaim_cone = 30.0
+
 var player
 var third_person_weapon: Gun
 var first_person_weapon: Gun
+var first_person_weapon_socket: Spatial
+var third_person_weapon_socket: Spatial
 var fire_position: Spatial
+var curr_id = -1
 
 var impact = preload("res://effects/impact.tscn")
 
+var weapons = [
+	preload("res://weapons/M1.tscn"),
+	preload("res://weapons/Bar.tscn"),
+]
+
 func init(_player):
 	player = _player
-	first_person_weapon = player.get_node("./CameraRemote/WeaponSocket").get_child(0)
-	third_person_weapon = player.get_node("./CharacterModel/Armature/Skeleton/Hand/WeaponSocket").get_child(0)
+	first_person_weapon_socket = player.get_node("./CameraRemote/WeaponSocket")
+	third_person_weapon_socket = player.get_node("./CharacterModel/Armature/Skeleton/Hand/WeaponSocket")
 	fire_position = player.get_node("./CameraRemote")
-	first_person_weapon.connect("attack", self, "do_raytrace_attack")
+	
+	## Give them an M1
+	change_weapon(0)
 	
 func _process(delta):
 	# Auto aim
@@ -27,7 +39,7 @@ func _process(delta):
 			closest_angle = angle
 			closest = basis
 	## Pull towards nearest angle
-	if closest and closest_angle < PI/12:
+	if closest and closest_angle < deg2rad(autoaim_cone):
 		player.interpolate_aim(closest, delta)
 	
 func fire_weapons():
@@ -36,9 +48,16 @@ func fire_weapons():
 	if third_person_weapon:
 		third_person_weapon.attack()
 		
+		
+func stop_weapons():
+	if first_person_weapon:
+		first_person_weapon.stop_attack()
+	if third_person_weapon:
+		third_person_weapon.stop_attack()
+		
 func do_raytrace_attack():
 	var space_state = player.get_world().get_direct_space_state()
-	var res = space_state.intersect_ray(fire_position.global_transform.origin, fire_position.global_transform.origin - fire_position.global_transform.basis.z * 1000, [player], 0x5, true, true)
+	var res = space_state.intersect_ray(fire_position.global_transform.origin, fire_position.global_transform.origin - fire_position.global_transform.basis.z * 1000, player.get_hitboxes(), 0x5, true, true)
 	if res:
 		var impact_inst = impact.instance()
 		get_tree().get_root().add_child(impact_inst)
@@ -54,3 +73,24 @@ func do_raytrace_attack():
 			
 func attack():
 	fire_weapons()
+
+func stop_attack():
+	stop_weapons()
+	
+func change_weapon(weaponid):
+	if weaponid == curr_id:
+		return false
+	curr_id = weaponid
+	if first_person_weapon:
+		first_person_weapon.queue_free()
+	if third_person_weapon:
+		third_person_weapon.queue_free()
+	var weapon = weapons[weaponid]
+	first_person_weapon = weapon.instance()
+	Util.set_person_mask(first_person_weapon, "firstperson", player.thirdperson_mask, player.firstperson_mask)
+	first_person_weapon_socket.add_child(first_person_weapon)
+	first_person_weapon.connect("attack", self, "do_raytrace_attack")
+	third_person_weapon = weapon.instance()
+	Util.set_person_mask(third_person_weapon, "thirdperson", player.thirdperson_mask, player.firstperson_mask)
+	third_person_weapon_socket.add_child(third_person_weapon)
+	return true

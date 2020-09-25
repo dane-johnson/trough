@@ -3,7 +3,7 @@ extends Node
 signal dead
 
 export(int) var max_health = 100
-export(int) var heal_rate = 10
+export(int) var heal_rate = 5
 var current_health
 var dead = false
 

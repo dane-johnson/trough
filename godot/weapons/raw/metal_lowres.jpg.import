@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/barrel_lowres.jpg-8017df5c6971fea76b0939e49a3ec1a1.stex"
+path="res://.import/metal_lowres.jpg-b44f8189eecf7bda8c4260591769c33a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/raw/barrel_lowres.jpg"
-dest_files=[ "res://.import/barrel_lowres.jpg-8017df5c6971fea76b0939e49a3ec1a1.stex" ]
+source_file="res://weapons/raw/metal_lowres.jpg"
+dest_files=[ "res://.import/metal_lowres.jpg-b44f8189eecf7bda8c4260591769c33a.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false

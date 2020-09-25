@@ -5,7 +5,9 @@ class_name Gun
 var can_attack = true
 export var attack_rate = 1.0
 export var damage = 30.0
+export var automatic = false
 var attack_timer: Timer
+var firing = false
 
 signal attack
 
@@ -17,13 +19,20 @@ func _ready():
 	$MuzzleFlash/Timer.connect("timeout", $MuzzleFlash, "hide")
 
 func attack():
+	if automatic:
+		firing = true
 	if can_attack:
 		emit_signal("attack")
 		can_attack = false
 		$MuzzleFlash.show()
 		$MuzzleFlash/Timer.start()
 		$ShotSound.play()
-		attack_timer.start()
+		attack_timer.start(attack_rate)
 		
+func stop_attack():
+	firing = false
+	
 func attack_done():
 	can_attack = true
+	if firing:
+		attack()

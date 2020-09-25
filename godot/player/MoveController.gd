@@ -6,11 +6,11 @@ var drag: float
 var jump_pressed = false
 var grounded = false
 
-export(float) var max_speed = 5.0
-export(float) var move_accel = 1.0
+export(float) var max_speed = 1.0
+export(float) var move_accel = 0.5
 export(bool) var ignore_rotation = false
 export(float) var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-export(float) var jump_power = 10.0
+export(float) var jump_power = 8.0
 
 var body
 
@@ -28,7 +28,8 @@ func _physics_process(delta):
 	var cur_move_vec = move_vec
 	if not ignore_rotation:
 		cur_move_vec = cur_move_vec.rotated(Vector3.UP, body.rotation.y)
-	velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag)
+	if grounded:
+		velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag)
 	velocity += Vector3.DOWN * gravity * delta
 	var snap_direction
 	if grounded:

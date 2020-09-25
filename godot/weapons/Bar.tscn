@@ -1,0 +1,70 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://psx.shader" type="Shader" id=1]
+[ext_resource path="res://weapons/raw/bar.glb" type="PackedScene" id=2]
+[ext_resource path="res://weapons/raw/wood_lowres.jpg" type="Texture" id=3]
+[ext_resource path="res://weapons/raw/metal_lowres.jpg" type="Texture" id=4]
+[ext_resource path="res://weapons/raw/barrel_lowres.jpg" type="Texture" id=5]
+[ext_resource path="res://weapons/raw/bumpy_lowres.jpg" type="Texture" id=6]
+[ext_resource path="res://weapons/Gun.gd" type="Script" id=7]
+[ext_resource path="res://weapons/MuzzleFlash.tscn" type="PackedScene" id=8]
+[ext_resource path="res://weapons/raw/gunshot.wav" type="AudioStream" id=9]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/specular_intensity = null
+shader_param/resolution = 256.0
+shader_param/cull_distance = 100.0
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/specular_intensity = 0.0
+shader_param/resolution = 256.0
+shader_param/cull_distance = 100.0
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/specular_intensity = null
+shader_param/resolution = 256.0
+shader_param/cull_distance = 100.0
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
+shader_param/color = Color( 0.945098, 0.745098, 0.584314, 1 )
+shader_param/specular_intensity = null
+shader_param/resolution = 256.0
+shader_param/cull_distance = 100.0
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 6 )
+
+[node name="bar" instance=ExtResource( 2 )]
+transform = Transform( 2.09272, 0, 0, 0, 2.09272, 0, 0, 0, 2.09272, 0, 0, 0 )
+script = ExtResource( 7 )
+attack_rate = 0.25
+damage = 40.0
+automatic = true
+
+[node name="Cube" parent="." index="0"]
+material/0 = SubResource( 1 )
+material/1 = SubResource( 2 )
+material/2 = SubResource( 3 )
+material/3 = SubResource( 4 )
+
+[node name="MuzzleFlash" parent="." index="2" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0188097, -0.328463 )
+
+[node name="ShotSound" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource( 9 )
