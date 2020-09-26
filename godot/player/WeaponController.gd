@@ -37,7 +37,7 @@ func _process(delta):
 	for tgt in targets:
 		var basis = fire_position.global_transform.looking_at(tgt.get_autoaim_tgt().global_transform.origin, Vector3.UP).basis
 		var angle = forward.angle_to(-basis.z)
-		if angle < closest_angle:
+		if angle < closest_angle and can_see(tgt):
 			closest_angle = angle
 			closest = basis
 	## Pull towards nearest angle
@@ -57,6 +57,11 @@ func stop_weapons():
 	if third_person_weapon:
 		third_person_weapon.stop_attack()
 		
+func can_see(tgt):
+	var space_state = player.get_world().get_direct_space_state()
+	var res = space_state.intersect_ray(fire_position.global_transform.origin, tgt.global_transform.origin, player.get_hitboxes(), 0x5, true, true)
+	return res and res.collider == tgt
+
 func do_raytrace_attack():
 	var space_state = player.get_world().get_direct_space_state()
 	var res = space_state.intersect_ray(fire_position.global_transform.origin, fire_position.global_transform.origin - fire_position.global_transform.basis.z * 1000, player.get_hitboxes(), 0x5, true, true)

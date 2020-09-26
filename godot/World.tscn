@@ -34,15 +34,16 @@ background_sky = SubResource( 4 )
 [node name="World" type="Spatial"]
 
 [node name="PlayerManager" parent="." instance=ExtResource( 1 )]
-num_players = 2
+num_players = 3
 spawn_points_node = NodePath("../SpawnPoints")
 
 [node name="Splitscreen" parent="." instance=ExtResource( 2 )]
-num_players = 2
+num_players = 3
 
 [node name="Environment" type="Spatial" parent="."]
 
 [node name="InvisibleWalls" type="StaticBody" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.72346, 0 )
 collision_layer = 8
 collision_mask = 0
 
@@ -80,11 +81,17 @@ environment = SubResource( 5 )
 
 [node name="SpawnPoints" type="Spatial" parent="."]
 
-[node name="SpawnPoint5" parent="SpawnPoints" instance=ExtResource( 4 )]
-transform = Transform( -0.679672, 0, -0.733516, 0, 1, 0, 0.733516, 0, -0.679672, 3.26505, 19.9556, -4.39061 )
-
 [node name="SpawnPoint" parent="SpawnPoints" instance=ExtResource( 4 )]
 transform = Transform( 0.539888, 0, 0.841737, 0, 1, 0, -0.841737, 0, 0.539888, -41.0576, 3.8147e-06, -42.6472 )
+
+[node name="SpawnPoint2" parent="SpawnPoints" instance=ExtResource( 4 )]
+transform = Transform( -0.734974, 0, 0.678095, 0, 1, 0, -0.678095, 0, -0.734974, -42.4178, -3.8147e-06, 42.8378 )
+
+[node name="SpawnPoint3" parent="SpawnPoints" instance=ExtResource( 4 )]
+transform = Transform( 0.69496, 0, -0.719049, 0, 1, 0, 0.719049, 0, 0.69496, 45.11, 0, -44.6327 )
+
+[node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource( 4 )]
+transform = Transform( -0.679672, 0, -0.733516, 0, 1, 0, 0.733516, 0, -0.679672, 43.586, 0, 41.425 )
 
 [node name="WeaponPickups" type="Spatial" parent="."]
 
@@ -101,13 +108,4 @@ weaponid = 1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.2884, 0.526474, 0 )
 model = ExtResource( 7 )
 weaponid = 1
-
-[node name="SpawnPoint2" parent="." instance=ExtResource( 4 )]
-transform = Transform( -0.734974, 0, 0.678095, 0, 1, 0, -0.678095, 0, -0.734974, -42.4178, -3.8147e-06, 42.8378 )
-
-[node name="SpawnPoint3" parent="." instance=ExtResource( 4 )]
-transform = Transform( 0.69496, 0, -0.719049, 0, 1, 0, 0.719049, 0, 0.69496, 45.11, 0, -44.6327 )
-
-[node name="SpawnPoint4" parent="." instance=ExtResource( 4 )]
-transform = Transform( -0.679672, 0, -0.733516, 0, 1, 0, 0.733516, 0, -0.679672, 43.586, 0, 41.425 )
 [connection signal="screens_created" from="Splitscreen" to="PlayerManager" method="start_game"]

@@ -10,10 +10,10 @@ export(float) var max_speed = 1.0
 export(float) var move_accel = 0.5
 export(bool) var ignore_rotation = false
 export(float) var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-export(float) var jump_power = 8.0
+export(float) var jump_power = 20
+export(float) var grip = 50.0
 
 var body
-
 
 func _ready():
 	assert(max_speed - move_accel > 0, "Cannot set move_accel faster than max_speed!")
@@ -28,20 +28,21 @@ func _physics_process(delta):
 	var cur_move_vec = move_vec
 	if not ignore_rotation:
 		cur_move_vec = cur_move_vec.rotated(Vector3.UP, body.rotation.y)
-	if grounded:
-		velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag)
-	if not grounded:
-		velocity += Vector3.DOWN * gravity * delta
+	velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag)
+	if abs(velocity.x) < delta * grip and abs(velocity.z) < delta * grip:
+		velocity.x = 0
+		velocity.z = 0
+	velocity += Vector3.DOWN * gravity * delta
 	var snap_direction
 	if grounded:
-		snap_direction = Vector3.DOWN * 3
+		snap_direction = Vector3.DOWN * 1.5
 	else:
 		snap_direction = Vector3.ZERO
-	velocity = body.move_and_slide_with_snap(velocity, snap_direction, Vector3.UP)
+	velocity = body.move_and_slide_with_snap(velocity, snap_direction, Vector3.UP, true)
 
 	grounded = body.is_on_floor()
 	if grounded:
-		velocity.y = 0
+		velocity.y = -0.1
 	if grounded and jump_pressed:
 		velocity.y = jump_power
 		grounded = false

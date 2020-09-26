@@ -18,7 +18,7 @@ script = ExtResource( 2 )
 [node name="MoveController" type="Node" parent="."]
 script = ExtResource( 1 )
 max_speed = 25.0
-move_accel = 4.0
+move_accel = 2.0
 
 [node name="WeaponController" type="Node" parent="."]
 script = ExtResource( 5 )
