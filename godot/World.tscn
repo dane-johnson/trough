@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://world/PlayerManager.tscn" type="PackedScene" id=1]
 [ext_resource path="res://screen/Splitscreen.tscn" type="PackedScene" id=2]
@@ -8,9 +8,20 @@
 [ext_resource path="res://weapons/Bar.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/M1.tscn" type="PackedScene" id=7]
 [ext_resource path="res://buildings/barn.tscn" type="PackedScene" id=8]
+[ext_resource path="res://buildings/silo.tscn" type="PackedScene" id=9]
+[ext_resource path="res://environment/bush.tscn" type="PackedScene" id=10]
+[ext_resource path="res://environment/raw/forest.png" type="Texture" id=11]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 50, 30, 1 )
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+albedo_texture = ExtResource( 11 )
+
+[sub_resource type="PlaneMesh" id=7]
+material = SubResource( 6 )
+size = Vector2( 100, 80 )
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 100, 2, 100 )
@@ -43,7 +54,7 @@ num_players = 2
 [node name="Environment" type="Spatial" parent="."]
 
 [node name="InvisibleWalls" type="StaticBody" parent="Environment"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.72346, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27.9036, 0 )
 collision_layer = 8
 collision_mask = 0
 
@@ -51,17 +62,37 @@ collision_mask = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
 shape = SubResource( 1 )
 
+[node name="MeshInstance" type="MeshInstance" parent="Environment/InvisibleWalls/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
 [node name="CollisionShape2" type="CollisionShape" parent="Environment/InvisibleWalls"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50 )
 shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Environment/InvisibleWalls/CollisionShape2"]
+transform = Transform( -1, -3.25841e-07, 5.30863e-14, 0, -1.62921e-07, -1, 3.25841e-07, -1, 1.62921e-07, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
 
 [node name="CollisionShape3" type="CollisionShape" parent="Environment/InvisibleWalls"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 50, 0, 0 )
 shape = SubResource( 1 )
 
+[node name="MeshInstance" type="MeshInstance" parent="Environment/InvisibleWalls/CollisionShape3"]
+transform = Transform( -1, -3.25841e-07, 5.30863e-14, 0, -1.62921e-07, -1, 3.25841e-07, -1, 1.62921e-07, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
 [node name="CollisionShape4" type="CollisionShape" parent="Environment/InvisibleWalls"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -50, 0, 0 )
 shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Environment/InvisibleWalls/CollisionShape4"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
 
 [node name="Ground" type="MeshInstance" parent="Environment"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
@@ -76,8 +107,26 @@ shape = SubResource( 3 )
 [node name="barn" parent="Environment/Ground" instance=ExtResource( 8 )]
 transform = Transform( 1.72338, 0, 0, 0, 1.72338, 0, 0, 0, 1.72338, 0, 1, 0 )
 
+[node name="silo" parent="Environment/Ground" instance=ExtResource( 9 )]
+transform = Transform( 0.0626512, 0, 3.01103, 0, 3.01168, 0, -3.01103, 0, 0.0626512, 20.4995, -0.0383883, 2.30139 )
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource( 5 )
+
+[node name="Spatial" parent="Environment" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0494, 0, 15.8142 )
+
+[node name="Spatial2" parent="Environment" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.549, 0, 19.0021 )
+
+[node name="Spatial3" parent="Environment" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3478, 0, 11.5396 )
+
+[node name="Spatial4" parent="Environment" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3478, 0, 11.5396 )
+
+[node name="Spatial5" parent="Environment" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.093, 0, -0.725874 )
 
 [node name="SpawnPoints" type="Spatial" parent="."]
 
