@@ -1,7 +1,7 @@
 extends Control
 
 var player = preload("res://player/Player.tscn")
-var player_screen = preload("res://PlayerScreen.tscn")
+var player_screen = preload("res://screen/PlayerScreen.tscn")
 var screens = []
 
 export(int) var num_players = 1
