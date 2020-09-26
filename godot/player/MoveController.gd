@@ -30,17 +30,18 @@ func _physics_process(delta):
 		cur_move_vec = cur_move_vec.rotated(Vector3.UP, body.rotation.y)
 	if grounded:
 		velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag)
-	velocity += Vector3.DOWN * gravity * delta
+	if not grounded:
+		velocity += Vector3.DOWN * gravity * delta
 	var snap_direction
 	if grounded:
-		snap_direction = Vector3.DOWN
+		snap_direction = Vector3.DOWN * 3
 	else:
 		snap_direction = Vector3.ZERO
 	velocity = body.move_and_slide_with_snap(velocity, snap_direction, Vector3.UP)
 
 	grounded = body.is_on_floor()
 	if grounded:
-		velocity.y = -0.01
+		velocity.y = 0
 	if grounded and jump_pressed:
 		velocity.y = jump_power
 		grounded = false

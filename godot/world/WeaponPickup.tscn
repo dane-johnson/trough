@@ -2,7 +2,7 @@
 
 [ext_resource path="res://world/WeaponPickup.gd" type="Script" id=2]
 
-[sub_resource type="SphereShape" id=3]
+[sub_resource type="SphereShape" id=1]
 
 [sub_resource type="Animation" id=2]
 resource_name = "Attract"
@@ -43,7 +43,7 @@ collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="WeaponSocket" type="Spatial" parent="."]
 transform = Transform( 1.93089, -6.20223e-07, 1.09486e-06, 0, 1.68005, 0.951725, -1.25833e-06, -0.951726, 1.68005, 0, 0.311146, 0 )
