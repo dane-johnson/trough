@@ -74,19 +74,6 @@ radius = 0.15
 [node name="CharacterModel" instance=ExtResource( 2 )]
 script = ExtResource( 5 )
 
-[node name="Skeleton" parent="Armature" index="0"]
-bones/0/bound_children = [ NodePath("Body") ]
-bones/1/bound_children = [ NodePath("Head") ]
-bones/2/bound_children = [ NodePath("UpperarmL") ]
-bones/3/bound_children = [ NodePath("ForearmL") ]
-bones/4/bound_children = [ NodePath("Hand") ]
-bones/5/bound_children = [ NodePath("UpperlegL") ]
-bones/6/bound_children = [ NodePath("LowerlegL") ]
-bones/8/bound_children = [ NodePath("UpperarmR") ]
-bones/9/bound_children = [ NodePath("ForearmR") ]
-bones/11/bound_children = [ NodePath("UpperlegR") ]
-bones/12/bound_children = [ NodePath("LowerlegR") ]
-
 [node name="Cube" parent="Armature/Skeleton" index="0"]
 material/0 = SubResource( 1 )
 
@@ -103,10 +90,10 @@ script = ExtResource( 6 )
 shape = SubResource( 2 )
 
 [node name="Physical Bone upperarml" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="1"]
-transform = Transform( 0.0329133, 0.995347, 0.0905376, 0.0559284, -0.0922789, 0.994165, 0.997889, -0.0276573, -0.0587054, 0.0760456, 0.48544, -0.0598323 )
+transform = Transform( 0.0329133, 0.995347, 0.0905376, 0.0559284, -0.0922789, 0.994165, 0.997889, -0.0276573, -0.0587053, 0.0760456, 0.48544, -0.0598323 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0757294, 0.0147919, -0.0025212 )
-body_offset = Transform( -0.0558964, 0.125019, -0.990582, -0.0557606, 0.990188, 0.128117, 0.996876, 0.0623968, -0.0483767, -0.000113726, -0.010101, -0.0765377 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0757294, 0.0147919, -0.00252096 )
+body_offset = Transform( -0.0558964, 0.125019, -0.990582, -0.0557606, 0.990188, 0.128117, 0.996875, 0.0623968, -0.0483767, -0.000113487, -0.010101, -0.0765377 )
 bone_name = "upperarml"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -120,8 +107,8 @@ shape = SubResource( 3 )
 [node name="Physical Bone forearml" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="2"]
 transform = Transform( -0.00270431, 0.136347, 0.990657, -0.999292, -0.0374669, 0.00242871, 0.037448, -0.989953, 0.136353, 0.475779, 0.497821, -0.0231292 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000121318, -0.00585255, -0.00852684 )
-body_offset = Transform( 0.99868, 0.0325728, -0.0396556, 0.0374199, 0.0665927, 0.997078, 0.0351184, -0.997249, 0.0652868, -2.63453e-05, 0.0088962, -0.0052755 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000121556, -0.00585256, -0.00852683 )
+body_offset = Transform( 0.99868, 0.0325728, -0.0396556, 0.0374199, 0.0665927, 0.997078, 0.0351184, -0.997249, 0.0652868, -2.61068e-05, 0.0088962, -0.0052755 )
 bone_name = "forearml"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -134,10 +121,10 @@ transform = Transform( 1, 0, -1.86265e-09, -1.11759e-08, 1, -2.98023e-08, 1.3969
 shape = SubResource( 4 )
 
 [node name="Physical Bone upperlegl" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="3"]
-transform = Transform( -0.999865, -0.0163822, 0.00135785, 0.00324991, -0.116013, 0.993268, -0.0161141, 0.993116, 0.116052, 0.0822993, -0.0781311, 0.00986905 )
+transform = Transform( -0.999865, -0.0163822, 0.00135784, 0.00324991, -0.116013, 0.993268, -0.0161141, 0.993116, 0.116052, 0.0822993, -0.0781311, 0.00986905 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000336505, -0.037174, 0.0179861 )
-body_offset = Transform( 0.999788, 0.0141635, 0.0149309, 0.0115118, 0.216463, -0.976248, -0.0170584, 0.976173, 0.216254, -7.84695e-05, 0.0256019, 0.0324044 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00033649, -0.037174, 0.0179861 )
+body_offset = Transform( 0.999788, 0.0141635, 0.014931, 0.0115118, 0.216463, -0.976248, -0.0170584, 0.976174, 0.216255, -7.84546e-05, 0.0256019, 0.0324044 )
 bone_name = "upperlegl"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -149,7 +136,7 @@ joint_constraints/relaxation = 1.0
 shape = SubResource( 5 )
 
 [node name="Physical Bone lowerlegl" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="4"]
-transform = Transform( -0.999803, -0.0196883, -0.00149362, 0.00129559, -0.140898, 0.990042, -0.0197024, 0.989826, 0.140892, 0.0757792, -0.473903, 0.0237416 )
+transform = Transform( -0.999803, -0.0196883, -0.00149362, 0.00129558, -0.140898, 0.990042, -0.0197024, 0.989826, 0.140892, 0.0757792, -0.473903, 0.0237416 )
 joint_type = 2
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000406326, -0.00194193, -0.0171986 )
 body_offset = Transform( 0.999634, 0.0168528, 0.0210345, 0.0198332, 0.0685045, -0.997471, -0.0182505, 0.997488, 0.0681325, -1.16862e-05, -0.0170302, 0.00311625 )
@@ -164,10 +151,10 @@ joint_constraints/relaxation = 1.0
 shape = SubResource( 6 )
 
 [node name="Physical Bone upperarmr" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="5"]
-transform = Transform( -0.00176492, -0.00418853, 0.999994, 0.999465, 0.0328769, 0.00190141, -0.0328845, 0.999457, 0.0041276, -0.0760458, 0.485441, -0.00868997 )
+transform = Transform( -0.00176492, -0.00418853, 0.999994, 0.999465, 0.0328769, 0.00190142, -0.0328845, 0.999457, 0.00412757, -0.0760457, 0.48544, -0.00868998 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000401424, 0.0242357, -0.0168864 )
-body_offset = Transform( 0.998829, 0.0338045, 0.0348184, 0.0375935, -0.0852516, -0.995654, -0.0306891, 0.995792, -0.0864224, 0.000169635, -0.0147318, -0.0256055 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000401185, 0.0242358, -0.0168864 )
+body_offset = Transform( 0.998829, 0.0338045, 0.0348184, 0.0375935, -0.0852516, -0.995654, -0.0306891, 0.995792, -0.0864224, 0.000169396, -0.0147318, -0.0256055 )
 bone_name = "upperarmr"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -179,10 +166,10 @@ joint_constraints/relaxation = 1.0
 shape = SubResource( 7 )
 
 [node name="Physical Bone forearmr" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="6"]
-transform = Transform( -0.00550089, -0.210087, -0.977672, 0.999298, -0.0374669, 0.00242887, -0.0371404, -0.976968, 0.210146, -0.475779, 0.497826, 0.0022598 )
+transform = Transform( -0.0055009, -0.210087, -0.977672, 0.999299, -0.0374669, 0.00242888, -0.0371404, -0.976968, 0.210146, -0.475779, 0.497826, 0.0022598 )
 joint_type = 2
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00103535, 0.0183299, -0.0134016 )
-body_offset = Transform( 0.998791, -0.0298009, 0.0391868, -0.0346106, 0.14102, 0.989407, -0.0350113, -0.989561, 0.139818, 3.73125e-05, 0.0107106, 0.0200486 )
+body_offset = Transform( 0.998791, -0.0298009, 0.0391868, -0.0346106, 0.14102, 0.989407, -0.0350113, -0.989562, 0.139818, 3.73125e-05, 0.0107106, 0.0200486 )
 bone_name = "forearmr"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -194,10 +181,10 @@ joint_constraints/relaxation = 1.0
 shape = SubResource( 8 )
 
 [node name="Physical Bone upperlegr" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="7"]
-transform = Transform( -0.999865, 0.0163822, -0.00135823, -0.00284844, -0.0912976, 0.995845, 0.0161898, 0.995694, 0.0913328, -0.0822993, -0.0781283, 0.0693107 )
+transform = Transform( -0.999865, 0.0163822, -0.00135824, -0.00284844, -0.0912976, 0.995846, 0.0161898, 0.995694, 0.0913328, -0.0822992, -0.0781283, 0.0693107 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00129252, -0.0959004, 0.0134728 )
-body_offset = Transform( 0.999781, -0.0145691, -0.0149806, -0.0119035, 0.192141, -0.981321, 0.0171746, 0.981246, 0.191925, 9.68874e-05, 0.0316321, 0.0915383 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00129251, -0.0959004, 0.0134728 )
+body_offset = Transform( 0.999781, -0.0145691, -0.0149806, -0.0119035, 0.192141, -0.981321, 0.0171746, 0.981246, 0.191925, 9.68724e-05, 0.0316321, 0.0915383 )
 bone_name = "upperlegr"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -211,8 +198,8 @@ shape = SubResource( 9 )
 [node name="Physical Bone lowerlegr" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="8"]
 transform = Transform( -0.999805, 0.0196882, 0.00149377, 0.00121593, -0.0141234, 0.99992, 0.0197073, 0.999707, 0.0140905, -0.075779, -0.473903, 0.0386065 )
 joint_type = 2
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000741094, -0.0189693, -0.0170219 )
-body_offset = Transform( 0.999587, -0.0193554, -0.021236, -0.0223379, -0.0586283, -0.998049, 0.0180718, 0.998074, -0.0590495, 1.21519e-05, -0.0181174, 0.017941 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000741079, -0.0189693, -0.0170219 )
+body_offset = Transform( 0.999587, -0.0193554, -0.021236, -0.0223379, -0.0586283, -0.998049, 0.0180718, 0.998074, -0.0590495, 1.2137e-05, -0.0181174, 0.017941 )
 bone_name = "lowerlegr"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0
@@ -224,9 +211,9 @@ joint_constraints/relaxation = 1.0
 shape = SubResource( 10 )
 
 [node name="Physical Bone handl" type="PhysicalBone" parent="Armature/Skeleton/Ragdoll" index="9"]
-transform = Transform( -8.46921e-08, 1, -1.49012e-08, -1, -1.09983e-07, -5.69596e-06, -5.69759e-06, 1.49012e-08, 1, 0.724716, 0.488436, -8.9407e-08 )
+transform = Transform( -8.4692e-08, 1, -1.49011e-08, -1, -1.09983e-07, -5.69596e-06, -5.69759e-06, 1.49012e-08, 1, 0.724716, 0.488436, -8.9407e-08 )
 joint_type = 2
-body_offset = Transform( 1, 3.88558e-16, -5.45697e-12, 8.56322e-14, 1, 1.06581e-14, 5.45697e-12, 0, 1, 0, 0, 0 )
+body_offset = Transform( 1, 3.88558e-16, -6.36646e-12, 9.98431e-14, 1, 1.24345e-14, 6.36646e-12, 0, 1, 0, 0, 0 )
 bone_name = "handl"
 joint_constraints/swing_span = 45.0
 joint_constraints/twist_span = 180.0

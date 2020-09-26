@@ -13,8 +13,10 @@ var curr_id = -1
 var impact = preload("res://effects/impact.tscn")
 
 var weapons = [
+	preload("res://weapons/Pistol.tscn"),
 	preload("res://weapons/M1.tscn"),
 	preload("res://weapons/Bar.tscn"),
+	
 ]
 
 func init(_player):

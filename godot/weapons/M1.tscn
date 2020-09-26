@@ -5,7 +5,7 @@
 [ext_resource path="res://weapons/raw/wood_lowres.jpg" type="Texture" id=3]
 [ext_resource path="res://weapons/MuzzleFlash.tscn" type="PackedScene" id=4]
 [ext_resource path="res://weapons/Gun.gd" type="Script" id=5]
-[ext_resource path="res://weapons/raw/gunshot.wav" type="AudioStream" id=6]
+[ext_resource path="res://weapons/ShotSound.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 3 )
@@ -28,7 +28,6 @@ material/1 = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00197658, 0.0148118, 0.608879 )
 visible = false
 
-[node name="ShotSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
+[node name="ShotSound" parent="." instance=ExtResource( 6 )]
 
 [editable path="Graphics"]
