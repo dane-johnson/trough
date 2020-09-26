@@ -9,6 +9,9 @@ func _ready():
 	$WeaponSocket.add_child(weapon)
 	$Area.connect("body_entered", self, "pickup")
 	$RespawnTimer.connect("timeout", self, "respawn")
+	if temporary:
+		$DecayTimer.connect("timeout", self, "queue_free")
+		$DecayTimer.start()
 	
 func pickup(ply):
 	var accept = ply.pickup(weaponid)
@@ -16,7 +19,7 @@ func pickup(ply):
 		queue_free()
 	elif accept:
 		$WeaponSocket.hide()
-		$Area.monitoring = false
+		$Area.set_deferred("monitoring", false)
 		$RespawnTimer.start()
 		
 func respawn():

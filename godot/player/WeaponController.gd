@@ -1,6 +1,6 @@
 extends Node
 
-export var autoaim_cone = 5.0
+export var autoaim_cone = 15.0
 
 var player
 var third_person_weapon: Gun
@@ -94,3 +94,9 @@ func change_weapon(weaponid):
 	Util.set_person_mask(third_person_weapon, "thirdperson", player.thirdperson_mask, player.firstperson_mask)
 	third_person_weapon_socket.add_child(third_person_weapon)
 	return true
+
+func zoom():
+	player.zoom_to(70 / first_person_weapon.zoom)
+
+func unzoom():
+	player.zoom_to(70)

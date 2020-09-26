@@ -56,6 +56,7 @@ script = ExtResource( 7 )
 attack_rate = 0.25
 damage = 40.0
 automatic = true
+zoom = 1.2
 
 [node name="Cube" parent="." index="0"]
 material/0 = SubResource( 1 )
@@ -64,7 +65,8 @@ material/2 = SubResource( 3 )
 material/3 = SubResource( 4 )
 
 [node name="MuzzleFlash" parent="." index="2" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0188097, -0.328463 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0389608, 0.305716 )
+visible = false
 
 [node name="ShotSound" type="AudioStreamPlayer" parent="." index="3"]
 stream = ExtResource( 9 )

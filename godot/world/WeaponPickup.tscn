@@ -46,12 +46,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 shape = SubResource( 3 )
 
 [node name="WeaponSocket" type="Spatial" parent="."]
-transform = Transform( -1.63312, -0.497889, 0.901869, 0, 1.6904, 0.933209, -1.03018, 0.789294, -1.42972, 0, 0.348492, 0 )
+transform = Transform( 1.93089, -6.20223e-07, 1.09486e-06, 0, 1.68005, 0.951725, -1.25833e-06, -0.951726, 1.68005, 0, 0.311146, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponSocket"]
 autoplay = "Attract"
 anims/Attract = SubResource( 2 )
 
 [node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[node name="DecayTimer" type="Timer" parent="."]
 wait_time = 30.0
 one_shot = true

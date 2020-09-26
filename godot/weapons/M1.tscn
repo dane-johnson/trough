@@ -16,6 +16,7 @@ albedo_texture = ExtResource( 2 )
 [node name="M1" type="Spatial"]
 script = ExtResource( 5 )
 damage = 80.0
+zoom = 2.5
 
 [node name="Graphics" parent="." instance=ExtResource( 1 )]
 
@@ -24,6 +25,8 @@ material/0 = SubResource( 1 )
 material/1 = SubResource( 2 )
 
 [node name="MuzzleFlash" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00197658, 0.0148118, 0.608879 )
+visible = false
 
 [node name="ShotSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )

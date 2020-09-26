@@ -6,8 +6,11 @@ var can_attack = true
 export var attack_rate = 1.0
 export var damage = 30.0
 export var automatic = false
+export var zoom = 1.0
 var attack_timer: Timer
 var firing = false
+var sound_level = 1.0
+var min_sound_level = 0.0
 
 signal attack
 
@@ -26,11 +29,15 @@ func attack():
 		can_attack = false
 		$MuzzleFlash.show()
 		$MuzzleFlash/Timer.start()
+		$MuzzleFlash.rotate_z(rand_range(0, 2 * PI))
+		$ShotSound.volume_db = 10 * (sound_level - 1)
 		$ShotSound.play()
+		sound_level *= 0.9
 		attack_timer.start(attack_rate)
 		
 func stop_attack():
 	firing = false
+	sound_level = 1.0
 	
 func attack_done():
 	can_attack = true

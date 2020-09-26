@@ -3,7 +3,7 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
-export(float) var autoaim_help = 10.0
+export(float) var autoaim_help = 8.0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
@@ -62,13 +62,19 @@ func _process(_delta):
 	
 func _input(event):
 	if event is InputEventJoypadButton and event.device == player_no - 1:
-		if event.button_index == JOY_R2:
-			if event.is_pressed():
-				weapon_controller.attack()
-			else:
-				weapon_controller.stop_attack()
-		elif event.button_index == JOY_XBOX_A or event.button_index == JOY_SONY_X:
-			move_controller.jump_pressed = true
+		match event.button_index:
+			JOY_R2:
+				if event.is_pressed():
+					weapon_controller.attack()
+				else:
+					weapon_controller.stop_attack()
+			JOY_L2:
+				if event.is_pressed():
+					weapon_controller.zoom()
+				else:
+					weapon_controller.unzoom()
+			JOY_XBOX_A, JOY_SONY_X:
+				move_controller.jump_pressed = true
 
 func dampen_joy_input(input_vec: Vector3):
 	if abs(input_vec.x) < joy_dampen:
@@ -82,7 +88,7 @@ func dampen_joy_input(input_vec: Vector3):
 func get_valid_targets():
 	var targets = []
 	for player in player_manager.players:
-		if player != self:
+		if player and player != self:
 			targets = targets + player.get_hitboxes()
 	return targets
 	
@@ -109,10 +115,16 @@ func health_changed(health_pct):
 	screen.set_blood_opacity(1.0 - health_pct)
 
 func dead(dmg_info):
-	print("Dead")
+	camera.set_remote_node("")
+	player_manager.slay(player_no, dmg_info)
 	
 func get_hitboxes():
 	return Util.find_all_children_with_type(self, "Hitbox")
 	
 func pickup(weaponid):
 	return weapon_controller.change_weapon(weaponid)
+	
+func zoom_to(fov):
+	var camera_path = get_path_to(camera_node)
+	get_node(camera_path).fov = fov
+	
