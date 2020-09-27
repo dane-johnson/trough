@@ -56,6 +56,7 @@ func _physics_process(delta):
 			on_ladder = false
 		var up = Vector3()
 		up.y = -cur_move_vec.z
+		up *= sign(body.get_look_direction())
 		var coll = body.move_and_collide(up * ladder_speed * delta)
 		if coll and up.y < 0:
 			on_ladder = false

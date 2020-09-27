@@ -59,7 +59,7 @@ func _process(_delta):
 		ANIM_RUNNING:
 			if $MoveController.velocity.length_squared() < 0.1:
 				set_anim_state_idle()
-	
+
 func _input(event):
 	if event is InputEventJoypadButton and event.device == player_no - 1:
 		match event.button_index:
@@ -84,6 +84,10 @@ func dampen_joy_input(input_vec: Vector3):
 	if abs(input_vec.z) < joy_dampen:
 		input_vec.z = 0.0
 	return input_vec
+	
+func get_look_direction():
+	print(camera.rotation.x)
+	return camera.rotation.x
 	
 func get_valid_targets():
 	var targets = []
