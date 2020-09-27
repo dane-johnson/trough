@@ -128,3 +128,5 @@ func zoom_to(fov):
 	var camera_path = get_path_to(camera_node)
 	get_node(camera_path).fov = fov
 	
+func ladder(on: bool):
+	move_controller.on_ladder = on
