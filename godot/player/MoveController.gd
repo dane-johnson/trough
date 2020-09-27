@@ -52,8 +52,10 @@ func _physics_process(delta):
 		jump_pressed = false
 	else:
 		## On ladder
+		if jump_pressed:
+			on_ladder = false
 		var up = Vector3()
 		up.y = -cur_move_vec.z
 		var coll = body.move_and_collide(up * ladder_speed * delta)
-		if coll: 
+		if coll and up.y < 0:
 			on_ladder = false
