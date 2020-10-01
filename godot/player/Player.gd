@@ -92,7 +92,6 @@ func dampen_joy_input(input_vec: Vector3):
 	return input_vec
 	
 func get_look_direction():
-	print(camera.rotation.x)
 	return camera.rotation.x
 	
 func get_valid_targets():
