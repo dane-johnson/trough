@@ -9,6 +9,7 @@ onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
 onready var health_controller = $HealthController
 onready var camera = $CameraRemote
+onready var thirdpersonanim = $CharacterModel/AnimationPlayer
 
 var firstperson_mask
 var thirdperson_mask
@@ -18,7 +19,7 @@ var player_manager
 var camera_node
 var screen
 
-enum {ANIM_IDLE, ANIM_RUNNING}
+enum {ANIM_IDLE, ANIM_RUNNING, ANIM_PISTOLWHIP}
 var anim_state = ANIM_IDLE
 
 func _ready():
@@ -35,6 +36,8 @@ func _ready():
 	
 	for hitbox in get_hitboxes():
 		hitbox.connect("hurt", self, "hurt")
+		
+	thirdpersonanim.connect("animation_finished", self, "finish_anim")
 
 func _process(_delta):
 	# Handle inputs
@@ -75,6 +78,8 @@ func _input(event):
 					weapon_controller.unzoom()
 			JOY_XBOX_A, JOY_SONY_X:
 				move_controller.jump_pressed = true
+			JOY_XBOX_B, JOY_SONY_CIRCLE:
+				weapon_controller.melee()
 
 func dampen_joy_input(input_vec: Vector3):
 	if abs(input_vec.x) < joy_dampen:
@@ -106,11 +111,20 @@ func interpolate_aim(basis: Basis, power: float, delta):
 
 func set_anim_state_run():
 	anim_state = ANIM_RUNNING
-	$CharacterModel/AnimationPlayer.play("run")
+	thirdpersonanim.play("run")
 
 func set_anim_state_idle():
 	anim_state = ANIM_IDLE
-	$CharacterModel/AnimationPlayer.play("aim_gun")
+	thirdpersonanim.play("aim_gun")
+	
+func set_anim_state_pistolwhip():
+	anim_state = ANIM_PISTOLWHIP
+	thirdpersonanim.play("pistolwhip")
+	
+func finish_anim(anim):
+	match anim:
+		"pistolwhip":
+			set_anim_state_idle()
 
 func hurt(dmg_info):
 	health_controller.hurt(dmg_info)

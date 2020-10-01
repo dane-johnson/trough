@@ -9,6 +9,7 @@ var first_person_weapon_socket: Spatial
 var third_person_weapon_socket: Spatial
 var fire_position: Spatial
 var curr_id = -1
+var attacking = false
 
 var impact = preload("res://effects/impact.tscn")
 
@@ -78,10 +79,29 @@ func do_raytrace_attack():
 		else:
 			impact_inst.emit(res.normal, false)
 			
+func do_melee_attack():
+	var bodies = player.get_node("MeleeDamage").get_overlapping_bodies()
+	for body in bodies:
+		if body == player:
+			continue
+		var dmg_info = {
+			"dmg": 50,
+			"position": player.global_transform.origin,
+			"normal": body.global_transform.origin.direction_to(player.global_transform.origin)
+		}
+		body.hurt(dmg_info)
+
 func attack():
+	attacking = true
 	fire_weapons()
+	
+func melee():
+	if not attacking:
+		player.set_anim_state_pistolwhip()
+	$MeleeDamageTimer.start()
 
 func stop_attack():
+	attacking = false
 	stop_weapons()
 	
 func change_weapon(weaponid):

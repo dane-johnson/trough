@@ -75,6 +75,10 @@ texture={
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [  ]
+}
 ui_select={
 "deadzone": 0.5,
 "events": [  ]
@@ -100,10 +104,6 @@ ui_right={
 "events": [  ]
 }
 ui_up={
-"deadzone": 0.5,
-"events": [  ]
-}
-ui_accept={
 "deadzone": 0.5,
 "events": [  ]
 }
