@@ -10,6 +10,7 @@ onready var weapon_controller = $WeaponController
 onready var health_controller = $HealthController
 onready var camera = $CameraRemote
 onready var thirdpersonanim = $CharacterModel/AnimationPlayer
+onready var firstpersonanim = $AnimationPlayer
 
 var firstperson_mask
 var thirdperson_mask
@@ -120,6 +121,7 @@ func set_anim_state_idle():
 func set_anim_state_pistolwhip():
 	anim_state = ANIM_PISTOLWHIP
 	thirdpersonanim.play("pistolwhip")
+	firstpersonanim.play("MeleeAttack")
 	
 func finish_anim(anim):
 	match anim:
