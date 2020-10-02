@@ -14,7 +14,8 @@ func _ready():
 
 func ragdoll(impulse = Vector3.ZERO):
 	is_ragdoll = true
-	$Armature/Skeleton/Hand/WeaponSocket.get_child(0).queue_free()
+	if $Armature/Skeleton/Hand/WeaponSocket.get_child_count() == 1:
+		$Armature/Skeleton/Hand/WeaponSocket.get_child(0).queue_free()
 	$Armature/Skeleton.physical_bones_start_simulation()
 	$Armature/Skeleton/Ragdoll/Body.apply_central_impulse(impulse)
 	$CleanupTimerNoMove.start()
