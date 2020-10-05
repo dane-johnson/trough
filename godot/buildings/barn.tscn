@@ -6,11 +6,11 @@
 [ext_resource path="res://buildings/raw/barn.glb" type="PackedScene" id=4]
 [ext_resource path="res://buildings/raw/barnroof_lowres.png" type="Texture" id=5]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=5]
 params_cull_mode = 2
 albedo_texture = ExtResource( 5 )
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="SpatialMaterial" id=6]
 params_cull_mode = 2
 albedo_texture = ExtResource( 2 )
 
@@ -30,8 +30,8 @@ data = PoolVector3Array( 0, -6, -12.0022, 4.2426, 1.4166, -10.2448, 0, 2.1812, -
 [node name="barn" instance=ExtResource( 4 )]
 
 [node name="Cylinder" parent="." index="0"]
-material/0 = SubResource( 1 )
-material/1 = SubResource( 2 )
+material/0 = SubResource( 5 )
+material/1 = SubResource( 6 )
 material/2 = SubResource( 3 )
 
 [node name="StaticBody" type="StaticBody" parent="Cylinder" index="0"]
