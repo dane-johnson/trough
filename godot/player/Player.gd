@@ -134,6 +134,7 @@ func health_changed(health_pct):
 	screen.set_blood_opacity(1.0 - health_pct)
 
 func dead(dmg_info):
+	zoom_to(70.0)
 	camera.set_remote_node("")
 	player_manager.slay(player_no, dmg_info)
 	
