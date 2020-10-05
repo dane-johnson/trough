@@ -51,6 +51,7 @@ script = ExtResource( 1 )
 max_speed = 10.0
 move_accel = 1.0
 jump_power = 10.0
+grip = 10.0
 
 [node name="WeaponController" type="Node" parent="."]
 script = ExtResource( 5 )
