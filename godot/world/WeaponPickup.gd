@@ -1,5 +1,7 @@
 extends Spatial
 
+tool
+
 export(PackedScene) var model
 export(int) var weaponid
 export(bool) var temporary = false
