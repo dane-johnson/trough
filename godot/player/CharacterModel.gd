@@ -4,9 +4,17 @@ export var is_ragdoll = false
 export var kick = Vector3.ZERO
 var min_time = false
 
+export(String) var skin = "austin"
+
+var skins = {
+	"austin": preload("res://player/raw/austin_skin.png"),
+	"cole": preload("res://player/raw/cole_skin.png")
+}
+
 signal cleanup
 
 func _ready():
+	$Armature/Skeleton/Cube.get_surface_material(0).albedo_texture = skins[skin]
 	if is_ragdoll:
 		ragdoll(kick)
 	$CleanupTimerNoMove.connect("timeout", self, "min_time_reached")
