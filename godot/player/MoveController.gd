@@ -41,7 +41,8 @@ func _physics_process(delta):
 			snap_direction = Vector3.DOWN * 1.5
 		else:
 			snap_direction = Vector3.ZERO
-		velocity = body.move_and_slide_with_snap(velocity, snap_direction, Vector3.UP, true)
+		if (velocity - Vector3.DOWN * gravity * delta).length_squared() > 1:
+			velocity = body.move_and_slide_with_snap(velocity, snap_direction, Vector3.UP, true)
 
 		grounded = body.is_on_floor()
 		if grounded:
