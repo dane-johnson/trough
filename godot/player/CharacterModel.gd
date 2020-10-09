@@ -8,17 +8,25 @@ export(String) var skin = "austin"
 
 var skins = {
 	"austin": preload("res://player/raw/austin_skin.png"),
-	"cole": preload("res://player/raw/cole_skin.png")
+	"cole": preload("res://player/raw/cole_skin.png"),
+	"dane": preload("res://player/raw/dane_skin.png"),
+	"nathan": preload("res://player/raw/nathan_skin.png")
 }
 
 signal cleanup
 
 func _ready():
-	$Armature/Skeleton/Cube.get_surface_material(0).albedo_texture = skins[skin]
+	update_skin()
 	if is_ragdoll:
 		ragdoll(kick)
 	$CleanupTimerNoMove.connect("timeout", self, "min_time_reached")
 	$CleanupTimerMoving.connect("timeout", self, "cleanup")
+	
+func update_skin():
+	var mat = $Armature/Skeleton/Cube.get_surface_material(0).duplicate()
+	mat.set_shader_param("albedo_texture", skins[skin])
+	$Armature/Skeleton/Cube.set_surface_material(0, mat)
+	
 
 func ragdoll(impulse = Vector3.ZERO):
 	is_ragdoll = true

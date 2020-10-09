@@ -1,10 +1,11 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://psx.shader" type="Shader" id=1]
+[ext_resource path="res://shaders/psx.shader" type="Shader" id=1]
 [ext_resource path="res://buildings/raw/wood_painted_163_196_Small.jpg" type="Texture" id=2]
 [ext_resource path="res://buildings/raw/wood_lowres.png" type="Texture" id=3]
 [ext_resource path="res://buildings/raw/barn.glb" type="PackedScene" id=4]
 [ext_resource path="res://buildings/raw/barnroof_lowres.png" type="Texture" id=5]
+
 
 [sub_resource type="SpatialMaterial" id=5]
 params_cull_mode = 2

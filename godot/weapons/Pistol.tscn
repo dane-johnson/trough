@@ -1,12 +1,13 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://psx.shader" type="Shader" id=1]
+[ext_resource path="res://shaders/psx.shader" type="Shader" id=1]
 [ext_resource path="res://weapons/raw/pistol.glb" type="PackedScene" id=2]
 [ext_resource path="res://weapons/raw/barrel_lowres.jpg" type="Texture" id=3]
 [ext_resource path="res://weapons/raw/gunmetal.png" type="Texture" id=5]
 [ext_resource path="res://weapons/MuzzleFlash.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/Gun.gd" type="Script" id=7]
 [ext_resource path="res://weapons/ShotSound.tscn" type="PackedScene" id=8]
+
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )

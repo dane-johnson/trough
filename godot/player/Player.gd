@@ -39,6 +39,10 @@ func _ready():
 		hitbox.connect("hurt", self, "hurt")
 		
 	thirdpersonanim.connect("animation_finished", self, "finish_anim")
+	
+	var skin_opts = $CharacterModel.skins.keys()
+	$CharacterModel.skin = skin_opts[(player_no - 1) % skin_opts.size()]
+	$CharacterModel.update_skin()
 
 func _process(_delta):
 	# Handle inputs
