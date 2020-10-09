@@ -9,9 +9,6 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
 
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 0.516233, 0.266131, 0.41114 )
-
 [sub_resource type="Animation" id=3]
 resource_name = "MeleeAttack"
 length = 0.7
@@ -39,6 +36,9 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( -51.686, -180, -1.09491e-05 ), Vector3( -51.686, -180, -1.09491e-05 ), Vector3( -38.846, -180, 29.363 ), Vector3( 0, -180, 0 ) ]
 }
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.949167, 0.266131, 0.595894 )
 
 [node name="Player" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
@@ -80,15 +80,15 @@ shape = SubResource( 1 )
 ] instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.457416, 0 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CameraRemote/WeaponSocket")
+anims/MeleeAttack = SubResource( 3 )
+
 [node name="MeleeDamage" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="MeleeDamage"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.943656, -0.599995 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.943656, -0.698603 )
 shape = SubResource( 2 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../CameraRemote/WeaponSocket")
-anims/MeleeAttack = SubResource( 3 )
 [connection signal="timeout" from="WeaponController/MeleeDamageTimer" to="WeaponController" method="do_melee_attack"]

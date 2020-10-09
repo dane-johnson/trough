@@ -30,7 +30,7 @@ func attack():
 		$MuzzleFlash.show()
 		$MuzzleFlash/Timer.start()
 		$MuzzleFlash.rotate_z(rand_range(0, 2 * PI))
-		$ShotSound.volume_db = 10 * (sound_level - 1)
+		$ShotSound.volume_db = 8.0 * (sound_level - 1)
 		$ShotSound.play()
 		sound_level *= 0.9
 		attack_timer.start(attack_rate)
