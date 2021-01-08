@@ -4,7 +4,6 @@ var player = preload("res://player/Player.tscn")
 var weapon_pickup = preload("res://world/WeaponPickup.tscn")
 
 var players = []
-var screens = []
 var players_to_spawn = []
 
 export(int) var num_players
@@ -14,23 +13,23 @@ onready var spawn_points: Array = get_node(spawn_points_node).get_children()
 
 func _ready():
 	players.resize(num_players)
+	start_game()
 
 func _process(delta):
 	if players_to_spawn.size() > 0:
 		var ply = players_to_spawn.pop_front()
 		spawn(ply)
 
-func start_game(_screens):
-	screens = _screens
+func start_game():
 	spawn_all()
 
 func spawn(player_no: int):
 	var spawn = get_free_spawn()
 	var player_inst = player.instance()
 	player_inst.player_no = player_no
-	player_inst.camera_node = screens[player_no - 1].get_node("Viewport/Camera")
+	player_inst.camera_node = $"../PlayerScreen/Viewport/Camera"
+	player_inst.screen = $"../PlayerScreen"
 	player_inst.player_manager = self
-	player_inst.screen = screens[player_no - 1]
 	get_tree().get_root().add_child(player_inst)
 	player_inst.global_transform.origin = spawn.global_transform.origin
 	player_inst.rotation.y = PI + spawn.rotation.y
@@ -47,7 +46,6 @@ func slay(player_no: int, dmg_info):
 	character_model.remove_from_group("thirdperson")
 	Util.set_person_mask(character_model, "both", player_inst.thirdperson_mask, player_inst.firstperson_mask)
 	character_model.connect("cleanup", self, "cleanup_ragdoll", [character_model, player_no])
-	screens[player_no - 1].follow_ragdoll(character_model.get_ragdoll_tgt())
 	character_model.ragdoll(dmg_info["normal"] * -dmg_info["dmg"] * flight_factor)
 	## Drop weapons as a pickup, with decay
 	var weapon_pickup_inst = weapon_pickup.instance()
@@ -72,6 +70,5 @@ func spawn_all():
 	players_to_spawn = range(1, num_players + 1)
 
 func cleanup_ragdoll(ragdoll, player_no):
-	screens[player_no - 1].stop_follow()
 	ragdoll.queue_free()
 	players_to_spawn.append(player_no)

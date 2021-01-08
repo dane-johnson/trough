@@ -13,6 +13,5 @@ func change_players(num_players: float):
 func start_game():
 	var world_inst = world.instance()
 	world_inst.get_node("PlayerManager").num_players = players
-	world_inst.get_node("Splitscreen").num_players = players
 	get_tree().get_root().add_child(world_inst)
 	queue_free()
