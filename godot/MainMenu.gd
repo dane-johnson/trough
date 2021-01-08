@@ -14,4 +14,5 @@ func start_game():
 	var world_inst = world.instance()
 	world_inst.get_node("PlayerManager").num_players = players
 	get_tree().get_root().add_child(world_inst)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	queue_free()

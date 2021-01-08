@@ -3,6 +3,7 @@ extends KinematicBody
 export(int) var player_no = 1
 export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
+export(float) var mouse_sensitivity = 0.4
 export(float) var autoaim_help = 8.0
 
 onready var move_controller = $MoveController
@@ -19,6 +20,9 @@ var thirdperson_mask
 var player_manager
 var camera_node
 var screen
+
+## For detecting mouse movement
+var mouse_movement = Vector2.ZERO
 
 enum {ANIM_IDLE, ANIM_RUNNING, ANIM_PISTOLWHIP}
 var anim_state = ANIM_IDLE
@@ -44,21 +48,40 @@ func _ready():
 	$CharacterModel.skin = skin_opts[(player_no - 1) % skin_opts.size()]
 	$CharacterModel.update_skin()
 
-func _process(_delta):
-	# Handle inputs
+func get_movement_vec():
 	var move_vec = Vector3.ZERO
 	move_vec.x = Input.get_joy_axis(player_no - 1, JOY_ANALOG_LX)
 	move_vec.z = Input.get_joy_axis(player_no - 1, JOY_ANALOG_LY)
 	move_vec = dampen_joy_input(move_vec)
-	move_controller.move_vec = move_vec
 
+	move_vec.x += Input.get_action_strength("strafe_right") - Input.get_action_strength("strafe_left")
+	move_vec.z += Input.get_action_strength("run_backwards") - Input.get_action_strength("run_forwards") 
+
+	return move_vec
+
+func get_turn_vec():
 	var turn_vec = Vector3.ZERO
 	turn_vec.x = Input.get_joy_axis(player_no - 1, JOY_ANALOG_RX)
 	turn_vec.y = Input.get_joy_axis(player_no - 1, JOY_ANALOG_RY)
 	turn_vec = dampen_joy_input(turn_vec)
+
+	turn_vec.y += mouse_movement.y * mouse_sensitivity
+	turn_vec.x += mouse_movement.x * mouse_sensitivity
+	mouse_movement = Vector2.ZERO
+
+	return turn_vec
+
+func _process(_delta):
+	# Handle inputs
+	var move_vec = get_movement_vec()
+	move_controller.move_vec = move_vec
+
+	var turn_vec = get_turn_vec()
 	rotation_degrees.y -= sensitivity * turn_vec.x
 	camera.rotation_degrees.x -= sensitivity * turn_vec.y
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
+
+	handle_input()
 	
 	match anim_state:
 		ANIM_IDLE:
@@ -67,6 +90,23 @@ func _process(_delta):
 		ANIM_RUNNING:
 			if $MoveController.velocity.length_squared() < 0.1:
 				set_anim_state_idle()
+
+func handle_input():
+	if Input.is_action_just_pressed("attack"):
+		weapon_controller.attack()
+	elif Input.is_action_just_released("attack"):
+		weapon_controller.stop_attack()
+
+	if Input.is_action_just_pressed("zoom"):
+		weapon_controller.zoom()
+	elif Input.is_action_just_released("zoom"):
+		weapon_controller.unzoom()
+
+	if Input.is_action_just_pressed("jump"):
+		move_controller.jump_pressed = true
+		
+	if Input.is_action_just_pressed("melee"):
+		weapon_controller.melee()
 
 func _input(event):
 	if event is InputEventJoypadButton and event.device == player_no - 1:
@@ -85,6 +125,9 @@ func _input(event):
 				move_controller.jump_pressed = true
 			JOY_XBOX_B, JOY_SONY_CIRCLE:
 				weapon_controller.melee()
+				
+	if event is InputEventMouseMotion:
+		mouse_movement += event.relative
 
 func dampen_joy_input(input_vec: Vector3):
 	if abs(input_vec.x) < joy_dampen:
