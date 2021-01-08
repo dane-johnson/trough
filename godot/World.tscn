@@ -61,7 +61,6 @@ albedo_texture = ExtResource( 18 )
 [node name="World" type="Spatial"]
 
 [node name="PlayerManager" parent="." instance=ExtResource( 1 )]
-num_players = 1
 spawn_points_node = NodePath("../SpawnPoints")
 
 [node name="Environment" type="Spatial" parent="."]
@@ -220,8 +219,6 @@ transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107,
 [node name="WeaponPickup" parent="Environment/dojo" instance=ExtResource( 5 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -8.62665, 1.54493, 1.97263 )
 model = ExtResource( 17 )
-weaponid = 0
-temporary = false
 
 [node name="MeshInstance2" type="MeshInstance" parent="Environment/dojo"]
 transform = Transform( 10.5442, 0, 0, 0, -4.37114e-08, 1, 0, -10.5442, -4.609e-07, -9.14139, 1.01913, 2.00903 )
@@ -251,12 +248,10 @@ transform = Transform( -0.679672, 0, -0.733516, 0, 1, 0, 0.733516, 0, -0.679672,
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30.9638, 0.526474, 0 )
 model = ExtResource( 6 )
 weaponid = 2
-temporary = false
 
 [node name="WeaponPickup2" parent="WeaponPickups" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0218421, 13.8107, 9.08356 )
 model = ExtResource( 7 )
 weaponid = 1
-temporary = false
 
 [node name="PlayerScreen" parent="." instance=ExtResource( 2 )]

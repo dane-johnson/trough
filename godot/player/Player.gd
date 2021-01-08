@@ -20,6 +20,7 @@ var thirdperson_mask
 var player_manager
 var camera_node
 var screen
+var local = false
 
 ## For detecting mouse movement
 var mouse_movement = Vector2.ZERO
@@ -28,13 +29,11 @@ enum {ANIM_IDLE, ANIM_RUNNING, ANIM_PISTOLWHIP}
 var anim_state = ANIM_IDLE
 
 func _ready():
-	var camera_path = get_path_to(camera_node)
-	camera.set_remote_node("../" + camera_path)
-	firstperson_mask = 0x1 << (player_no)
-	thirdperson_mask = 0x1e & ~(firstperson_mask)
-	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
-	get_node(camera_path).set_cull_mask(0x1 | firstperson_mask)
-	
+	if local:
+		setup_local_player()
+	else:
+		setup_remote_player()
+		
 	move_controller.init(self)
 	weapon_controller.init(self)
 	health_controller.init(self)
@@ -45,8 +44,22 @@ func _ready():
 	thirdpersonanim.connect("animation_finished", self, "finish_anim")
 	
 	var skin_opts = $CharacterModel.skins.keys()
-	$CharacterModel.skin = skin_opts[(player_no - 1) % skin_opts.size()]
+	$CharacterModel.skin = skin_opts[0]
 	$CharacterModel.update_skin()
+
+func setup_local_player():
+	var camera_path = get_path_to(camera_node)
+	camera.set_remote_node("../" + camera_path)
+	firstperson_mask = 0x1
+	thirdperson_mask = 0x2
+	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
+	get_node(camera_path).set_cull_mask(0x1 | firstperson_mask)
+
+
+func setup_remote_player():
+	firstperson_mask = 0x2
+	thirdperson_mask = 0x1
+	Util.set_person_mask(self, "both", thirdperson_mask, firstperson_mask)
 
 func get_movement_vec():
 	var move_vec = Vector3.ZERO
@@ -72,6 +85,8 @@ func get_turn_vec():
 	return turn_vec
 
 func _process(_delta):
+	if not local:
+		return
 	# Handle inputs
 	var move_vec = get_movement_vec()
 	move_controller.move_vec = move_vec
@@ -109,6 +124,8 @@ func handle_input():
 		weapon_controller.melee()
 
 func _input(event):
+	if not local:
+		return
 	if event is InputEventJoypadButton and event.device == player_no - 1:
 		match event.button_index:
 			JOY_R2:
@@ -143,7 +160,7 @@ func get_look_direction():
 	
 func get_valid_targets():
 	var targets = []
-	for player in player_manager.players:
+	for player in player_manager.get_player_instances():
 		if player and player != self:
 			targets = targets + player.get_hitboxes()
 	return targets
@@ -178,7 +195,8 @@ func hurt(dmg_info):
 	health_controller.hurt(dmg_info)
 	
 func health_changed(health_pct):
-	screen.set_blood_opacity(1.0 - health_pct)
+	if screen:
+		screen.set_blood_opacity(1.0 - health_pct)
 
 func dead(dmg_info):
 	zoom_to(70.0)

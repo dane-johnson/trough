@@ -27,6 +27,8 @@ func init(_body: KinematicBody):
 	body = _body
 
 func _physics_process(delta):
+	if not body.local:
+		return ##TODO
 	var cur_move_vec = move_vec
 	if not on_ladder:
 		if not ignore_rotation:

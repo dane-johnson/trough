@@ -2,7 +2,7 @@
 
 [ext_resource path="res://MainMenu.gd" type="Script" id=1]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="CenterContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -10,22 +10,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
-margin_left = 225.0
-margin_top = 177.0
-margin_right = 266.0
-margin_bottom = 197.0
-text = "Start"
+[node name="Buttons" type="VBoxContainer" parent="."]
+margin_left = 156.0
+margin_top = 114.0
+margin_right = 356.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_stretch_ratio = 0.0
 
-[node name="SpinBox" type="SpinBox" parent="."]
-margin_left = 195.0
-margin_top = 133.0
-margin_right = 296.0
-margin_bottom = 157.0
-min_value = 1.0
-max_value = 4.0
-value = 1.0
-suffix = "Players"
+[node name="HostButton" type="Button" parent="Buttons"]
+margin_right = 200.0
+margin_bottom = 20.0
+text = "Host Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="IP" type="LineEdit" parent="Buttons"]
+margin_top = 24.0
+margin_right = 200.0
+margin_bottom = 48.0
+placeholder_text = "IP Address"
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinButton" type="Button" parent="Buttons"]
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 72.0
+text = "Join Game"

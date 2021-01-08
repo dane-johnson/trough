@@ -35,6 +35,10 @@ _global_script_class_icons={
 config/name="Trough"
 run/main_scene="res://MainMenu.tscn"
 
+[autoload]
+
+NetworkManager="*res://network/NetworkManager.gd"
+
 [debug]
 
 gdscript/warnings/return_value_discarded=false

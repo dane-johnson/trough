@@ -30,6 +30,8 @@ func init(_player):
 	change_weapon(0)
 	
 func _process(delta):
+	if not player.local:
+		return
 	# Auto aim
 	var targets = player.get_valid_targets()
 	var forward = -fire_position.global_transform.basis.z
