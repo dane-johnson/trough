@@ -194,15 +194,16 @@ func finish_anim(anim):
 			set_anim_state_idle()
 
 func hurt(dmg_info):
-	health_controller.hurt(dmg_info)
+	health_controller.rpc("hurt", dmg_info)
 	
 func health_changed(health_pct):
 	if screen:
 		screen.set_blood_opacity(1.0 - health_pct)
 
 func dead(dmg_info):
-	zoom_to(70.0)
-	camera.set_remote_node("")
+	if local:
+		zoom_to(70.0)
+		camera.set_remote_node("")
 	player_manager.slay(player_no, dmg_info)
 	
 func get_hitboxes():

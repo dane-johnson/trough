@@ -38,7 +38,8 @@ func _process(delta):
 func get_player_instances():
 	var instances = []
 	for np in players.values():
-		instances.append(np.instance)
+		if np.instance:
+			instances.append(np.instance)
 	return instances
 
 remote func sync_players():
@@ -92,6 +93,7 @@ remotesync func slay(id: int, dmg_info):
 	get_tree().get_root().add_child(weapon_pickup_inst)
 	weapon_pickup_inst.transform.origin = player_inst.global_transform.origin
 	## Get rid of the player
+	players[id].instance = null
 	get_tree().get_root().remove_child(player_inst)
 	player_inst.queue_free()
 	

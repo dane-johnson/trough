@@ -18,7 +18,7 @@ func init(_player):
 	heal_timer.connect("timeout", self, "heal", [{"health": heal_rate}])
 	heal_timer.start(0.5)
 
-func hurt(dmg_info):
+remotesync func hurt(dmg_info):
 	if dead:
 		return
 	current_health -= dmg_info["dmg"]
