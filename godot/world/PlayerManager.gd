@@ -29,7 +29,6 @@ remote func add_remote_player(id):
 	var player = NetworkPlayer.new(id)
 	player.local = false
 	players[id] = player
-	add_to_spawnlist(id)
 
 func _process(delta):
 	if players_to_spawn.size() > 0:
@@ -45,7 +44,10 @@ func get_player_instances():
 remote func sync_players():
 	var new_connection = get_tree().get_rpc_sender_id()
 	for id in players:
-		rpc_id(new_connection, "add_remote_player", id)
+		if id != new_connection:
+			rpc_id(new_connection, "add_remote_player", id)
+			if players[id].instance:
+				rpc_id(new_connection, "add_to_spawnlist", id)
 
 func start_game():
 	spawn_all()
@@ -59,6 +61,7 @@ func spawn(id):
 	var player_inst = player_prefab.instance()
 	player_inst.set_network_master(id)
 	player_inst.player_no = id
+	player_inst.name = "Player-" + str(id)
 	if players[id].local:
 		player_inst.local = true
 		player_inst.camera_node = $"../PlayerScreen/Viewport/Camera"

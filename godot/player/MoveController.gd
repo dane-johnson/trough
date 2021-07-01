@@ -63,3 +63,7 @@ func _physics_process(delta):
 		var coll = body.move_and_collide(up * ladder_speed * delta)
 		if coll and up.y < 0:
 			on_ladder = false
+	rpc("cmd_set_transform", body.global_transform)
+
+puppet func cmd_set_transform(gt):
+	body.global_transform = gt

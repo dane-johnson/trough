@@ -24,5 +24,8 @@ func join_game():
 	NetworkManager.player_manager = world_inst.get_node("PlayerManager")
 	get_tree().get_root().add_child(world_inst)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	NetworkManager.join_game(ip_field.text)
+	var ip_addr = ip_field.text
+	if ip_addr == "":
+		ip_addr = "localhost"
+	NetworkManager.join_game(ip_addr)
 	queue_free()

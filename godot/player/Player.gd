@@ -97,7 +97,9 @@ func _process(_delta):
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
 
 	handle_input()
-	
+	rpc("update_anim")
+
+remotesync func update_anim():
 	match anim_state:
 		ANIM_IDLE:
 			if $MoveController.velocity.length_squared() > 0.1:
