@@ -52,6 +52,7 @@ func spawn(id):
 		player_inst.local = true
 		player_inst.camera_node = $"../PlayerScreen/Viewport/Camera"
 		player_inst.screen = $"../PlayerScreen"
+		player_inst.screen.stop_follow()
 	player_inst.player_manager = self
 	network_player.add_child(player_inst)
 	player_inst.global_transform.origin = spawn.global_transform.origin
@@ -69,6 +70,8 @@ remotesync func slay(player, dmg_info):
 	Util.set_person_mask(character_model, "both", player.thirdperson_mask, player.firstperson_mask)
 	character_model.connect("cleanup", self, "cleanup_ragdoll", [character_model, network_player.id])
 	character_model.ragdoll(dmg_info["normal"] * -dmg_info["dmg"] * flight_factor)
+	if network_player.is_local():
+		player.screen.follow_ragdoll(character_model.get_ragdoll_tgt())
 	## Drop weapons as a pickup, with decay
 	var weapon_pickup_inst = weapon_pickup.instance()
 	weapon_pickup_inst.temporary = true
