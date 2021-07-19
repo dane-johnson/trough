@@ -1,6 +1,7 @@
 extends Node
 
 export var autoaim_cone = 15.0
+export var autoaim = false
 
 var player
 var third_person_weapon: Gun
@@ -30,7 +31,7 @@ func init(_player):
 	change_weapon(0)
 	
 func _process(delta):
-	if not player.local:
+	if not player.local or not autoaim:
 		return
 	# Auto aim
 	var targets = player.get_valid_targets()
