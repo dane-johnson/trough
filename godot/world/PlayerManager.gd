@@ -27,6 +27,11 @@ func add_player(id):
 	player.set_network_master(id)
 	add_child(player)
 
+func remove_player(id):
+	var player = get_node(NetworkPlayer.gen_name(id))
+	remove_child(player)
+	player.queue_free()
+
 func _process(_delta):
 	if players_to_spawn.size() > 0:
 		var ply = players_to_spawn.pop_front()
