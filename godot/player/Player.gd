@@ -204,7 +204,7 @@ func dead(dmg_info):
 	if local:
 		zoom_to(70.0)
 		camera.set_remote_node("")
-	player_manager.slay(player_no, dmg_info)
+	player_manager.slay(self, dmg_info)
 	
 func get_hitboxes():
 	return Util.find_all_children_with_type(self, "Hitbox")

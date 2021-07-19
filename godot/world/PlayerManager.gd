@@ -1,101 +1,84 @@
 extends Node
 
-class NetworkPlayer:
+class NetworkPlayer extends Spatial:
 	var id
-	var instance
-	var local = false
 
-	func _init(my_id):
-		id = my_id
+	static func gen_name(my_id):
+		return "NetworkPlayer-" + str(my_id)
+
+	func _init(_id):
+		id = _id
+		set_name(NetworkPlayer.gen_name(id))
+
+	func is_local():
+		return id == NetworkManager.id
 
 var player_prefab = preload("res://player/Player.tscn")
 var weapon_pickup = preload("res://world/WeaponPickup.tscn")
 
-var players = {}
 var players_to_spawn = []
 
 export(NodePath) var spawn_points_node
 export(float) var flight_factor = 3.0
 onready var spawn_points: Array = get_node(spawn_points_node).get_children()
 
-func add_local_player(id):
+func add_player(id):
 	var player = NetworkPlayer.new(id)
-	player.local = true
-	players[id] = player
+	player.set_network_master(id)
+	add_child(player)
 
-remote func add_remote_player(id):
-	if id == NetworkManager.id:
-		return
-	var player = NetworkPlayer.new(id)
-	player.local = false
-	players[id] = player
-
-func _process(delta):
+func _process(_delta):
 	if players_to_spawn.size() > 0:
 		var ply = players_to_spawn.pop_front()
 		spawn(ply)
 
 func get_player_instances():
 	var instances = []
-	for np in players.values():
-		if np.instance:
-			instances.append(np.instance)
+	for np in get_children():
+		var instance = np.get_node_or_null("Player")
+		if instance:
+			instances.append(instance)
 	return instances
 
-remote func sync_players():
-	var new_connection = get_tree().get_rpc_sender_id()
-	for id in players:
-		if id != new_connection:
-			rpc_id(new_connection, "add_remote_player", id)
-			if players[id].instance:
-				rpc_id(new_connection, "add_to_spawnlist", id)
-
-func start_game():
-	spawn_all()
-
-func join_in_progress(id):
-	rpc_id(NetworkManager.HOST_ID, "sync_players")
-	rpc("add_to_spawnlist", id)
-
 func spawn(id):
+	var network_player = get_node(NetworkPlayer.gen_name(id))
+	assert(!network_player.get_node_or_null("Player"))
 	var spawn = get_free_spawn()
 	var player_inst = player_prefab.instance()
+	player_inst.name = "Player"
 	player_inst.set_network_master(id)
 	player_inst.player_no = id
-	player_inst.name = "Player-" + str(id)
-	if players[id].local:
+	if network_player.is_local():
 		player_inst.local = true
 		player_inst.camera_node = $"../PlayerScreen/Viewport/Camera"
 		player_inst.screen = $"../PlayerScreen"
 	player_inst.player_manager = self
-	get_tree().get_root().add_child(player_inst)
+	network_player.add_child(player_inst)
 	player_inst.global_transform.origin = spawn.global_transform.origin
 	player_inst.rotation.y = PI + spawn.rotation.y
-	players[id].instance = player_inst
 	
-remotesync func slay(id: int, dmg_info):
-	var player_inst = players[id].instance
+remotesync func slay(player, dmg_info):
+	var network_player = player.get_parent()
 	## Ragdoll the character model
-	var character_model = player_inst.get_node("CharacterModel")
-	player_inst.remove_child(character_model)
-	get_tree().get_root().add_child(character_model)
-	character_model.transform = player_inst.global_transform
+	var character_model = player.get_node("CharacterModel")
+	player.remove_child(character_model)
+	network_player.add_child(character_model)
+	character_model.transform = player.global_transform
 	character_model.rotate_y(PI)
 	character_model.remove_from_group("thirdperson")
-	Util.set_person_mask(character_model, "both", player_inst.thirdperson_mask, player_inst.firstperson_mask)
-	character_model.connect("cleanup", self, "cleanup_ragdoll", [character_model, id])
+	Util.set_person_mask(character_model, "both", player.thirdperson_mask, player.firstperson_mask)
+	character_model.connect("cleanup", self, "cleanup_ragdoll", [character_model, network_player.id])
 	character_model.ragdoll(dmg_info["normal"] * -dmg_info["dmg"] * flight_factor)
 	## Drop weapons as a pickup, with decay
 	var weapon_pickup_inst = weapon_pickup.instance()
 	weapon_pickup_inst.temporary = true
-	weapon_pickup_inst.weaponid = player_inst.weapon_controller.curr_id
-	weapon_pickup_inst.model = player_inst.weapon_controller.weapons[weapon_pickup_inst.weaponid]
+	weapon_pickup_inst.weaponid = player.weapon_controller.curr_id
+	weapon_pickup_inst.model = player.weapon_controller.weapons[weapon_pickup_inst.weaponid]
 	get_tree().get_root().add_child(weapon_pickup_inst)
-	weapon_pickup_inst.transform.origin = player_inst.global_transform.origin
+	weapon_pickup_inst.transform.origin = player.global_transform.origin
 	## Get rid of the player
-	players[id].instance = null
-	get_tree().get_root().remove_child(player_inst)
-	player_inst.queue_free()
+	network_player.remove_child(player)
+	player.queue_free()
 	
 func get_free_spawn():
 	var offset = randi() % spawn_points.size()
@@ -105,12 +88,9 @@ func get_free_spawn():
 			return spawn_points[p]
 	assert(false, "Could not find a safe spawn!")
 
-func spawn_all():
-	players_to_spawn = players.keys()
-
 func cleanup_ragdoll(ragdoll, id):
 	ragdoll.queue_free()
-	rpc("add_to_spawnlist", id)
+	add_to_spawnlist(id)
 
-remotesync func add_to_spawnlist(id):
+func add_to_spawnlist(id):
 	players_to_spawn.append(id)

@@ -17,7 +17,7 @@ func start_game():
 	get_tree().get_root().add_child(world_inst)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	NetworkManager.host_game()
-	queue_free()
+	hide()
 
 func join_game():
 	var world_inst = world.instance()
@@ -28,4 +28,4 @@ func join_game():
 	if ip_addr == "":
 		ip_addr = "localhost"
 	NetworkManager.join_game(ip_addr)
-	queue_free()
+	hide()

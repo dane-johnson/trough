@@ -4,10 +4,8 @@ enum {HOST, CLIENT}
 
 const PORT = 8008
 const MAX_PLAYERS = 16
-const HOST_ID = 1
 
 var player_manager
-var local_player
 var network_mode
 var peer
 var id
@@ -21,20 +19,20 @@ func host_game():
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_server(PORT, 16)
 	get_tree().network_peer = peer
-	id = HOST_ID
-	player_manager.add_local_player(id)
-	player_manager.start_game()
+	id = peer.get_unique_id()
+	on_connect()
 
 func join_game(ip):
 	network_mode = CLIENT
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, PORT)
 	get_tree().network_peer = peer
+	id = peer.get_unique_id()
 
 func on_connect():
-	id = get_tree().get_network_unique_id()
-	player_manager.add_local_player(id)
-	player_manager.join_in_progress(id)
+	player_manager.add_player(id)
+	player_manager.add_to_spawnlist(id)
 	
-func on_peer_connected(id):
-	player_manager.add_remote_player(id)
+func on_peer_connected(peer_id):
+	player_manager.add_player(peer_id)
+	player_manager.add_to_spawnlist(peer_id)

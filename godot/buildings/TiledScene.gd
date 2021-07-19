@@ -12,7 +12,7 @@ func update_children():
 	for child in get_children():
 		child.queue_free()
 	var pos = Vector3.ZERO
-	for i in range(reps):
+	for _i in range(reps):
 		var inst = prefab.instance()
 		add_child(inst)
 		inst.transform.origin = pos

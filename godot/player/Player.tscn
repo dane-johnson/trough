@@ -69,8 +69,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17878, 0 )
 [node name="WeaponSocket" type="Spatial" parent="CameraRemote"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.320019, -0.294549, -0.951001 )
 
-[node name="Camera" type="Camera" parent="CameraRemote"]
-
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.5, 0 )
 shape = SubResource( 1 )
@@ -91,4 +89,5 @@ collision_mask = 2
 [node name="CollisionShape" type="CollisionShape" parent="MeleeDamage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.943656, -0.698603 )
 shape = SubResource( 3 )
+
 [connection signal="timeout" from="WeaponController/MeleeDamageTimer" to="WeaponController" method="do_melee_attack"]

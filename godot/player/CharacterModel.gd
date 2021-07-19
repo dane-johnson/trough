@@ -37,7 +37,7 @@ func ragdoll(impulse = Vector3.ZERO):
 	$CleanupTimerNoMove.start()
 	$CleanupTimerMoving.start()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_ragdoll and min_time:
 		if $Armature/Skeleton/Ragdoll/Body.velocity.length_squared() < 0.01:
 			cleanup()
