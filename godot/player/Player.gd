@@ -97,15 +97,17 @@ func _process(_delta):
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
 
 	handle_input()
-	rpc("update_anim")
+	
+	var flat_vel = Vector3(move_controller.velocity.x, 0.0, move_controller.velocity.z)
+	rpc("update_anim", flat_vel)
 
-remotesync func update_anim():
+remotesync func update_anim(flat_vel: Vector3):
 	match anim_state:
 		ANIM_IDLE:
-			if $MoveController.velocity.length_squared() > 0.1:
+			if flat_vel.length_squared() > 0.1:
 				set_anim_state_run()
 		ANIM_RUNNING:
-			if $MoveController.velocity.length_squared() < 0.1:
+			if flat_vel.length_squared() < 0.1:
 				set_anim_state_idle()
 
 func handle_input():
