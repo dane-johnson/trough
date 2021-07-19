@@ -48,6 +48,7 @@ func spawn(id):
 	player_inst.name = "Player"
 	player_inst.set_network_master(id)
 	player_inst.player_no = id
+	player_inst.skin = network_player.id % 4
 	if network_player.is_local():
 		player_inst.local = true
 		player_inst.camera_node = $"../PlayerScreen/Viewport/Camera"

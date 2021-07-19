@@ -6,7 +6,7 @@ var min_time = false
 
 export(String) var skin = "austin"
 
-var skins = {
+const skins = {
 	"austin": preload("res://player/raw/austin_skin.png"),
 	"cole": preload("res://player/raw/cole_skin.png"),
 	"dane": preload("res://player/raw/dane_skin.png"),

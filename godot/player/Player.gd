@@ -5,6 +5,7 @@ export(float) var sensitivity = 2.5
 export(float) var joy_dampen = 0.1
 export(float) var mouse_sensitivity = 0.4
 export(float) var autoaim_help = 8.0
+export(int) var skin = 0
 
 onready var move_controller = $MoveController
 onready var weapon_controller = $WeaponController
@@ -44,7 +45,7 @@ func _ready():
 	thirdpersonanim.connect("animation_finished", self, "finish_anim")
 	
 	var skin_opts = $CharacterModel.skins.keys()
-	$CharacterModel.skin = skin_opts[0]
+	$CharacterModel.skin = skin_opts[skin]
 	$CharacterModel.update_skin()
 
 func setup_local_player():

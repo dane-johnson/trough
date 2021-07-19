@@ -9,6 +9,7 @@ var player_manager
 var network_mode
 var peer
 var id
+var connections = 0
 
 func _ready():
 	get_tree().connect("connected_to_server", self, "on_connect")
