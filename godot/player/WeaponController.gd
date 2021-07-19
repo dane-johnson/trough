@@ -100,7 +100,7 @@ func attack():
 	
 func melee():
 	if not attacking:
-		player.set_anim_state_pistolwhip()
+		player.rpc("update_anim", Vector3(), true)
 	$MeleeDamageTimer.start()
 
 func stop_attack():

@@ -99,16 +99,22 @@ func _process(_delta):
 	handle_input()
 	
 	var flat_vel = Vector3(move_controller.velocity.x, 0.0, move_controller.velocity.z)
-	rpc("update_anim", flat_vel)
+	rpc("update_anim", flat_vel, false)
 
-remotesync func update_anim(flat_vel: Vector3):
+remotesync func update_anim(flat_vel: Vector3, pistolwhip: bool):
 	match anim_state:
 		ANIM_IDLE:
-			if flat_vel.length_squared() > 0.1:
+			if pistolwhip:
+				set_anim_state_pistolwhip()
+			elif flat_vel.length_squared() > 0.1:
 				set_anim_state_run()
 		ANIM_RUNNING:
-			if flat_vel.length_squared() < 0.1:
+			if pistolwhip:
+				set_anim_state_pistolwhip()
+			elif flat_vel.length_squared() < 0.1:
 				set_anim_state_idle()
+		ANIM_PISTOLWHIP:
+			pass ## Nothing stops a pistolwhip
 
 func handle_input():
 	if Input.is_action_just_pressed("attack"):
