@@ -137,7 +137,7 @@ func handle_input():
 func _input(event):
 	if not local:
 		return
-	if event is InputEventJoypadButton and event.device == player_no - 1:
+	if event is InputEventJoypadButton:
 		match event.button_index:
 			JOY_R2:
 				if event.is_pressed():
