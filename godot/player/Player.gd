@@ -64,8 +64,8 @@ func setup_remote_player():
 
 func get_movement_vec():
 	var move_vec = Vector3.ZERO
-	move_vec.x = Input.get_joy_axis(player_no - 1, JOY_ANALOG_LX)
-	move_vec.z = Input.get_joy_axis(player_no - 1, JOY_ANALOG_LY)
+	move_vec.x = Input.get_joy_axis(0, JOY_ANALOG_LX)
+	move_vec.z = Input.get_joy_axis(0, JOY_ANALOG_LY)
 	move_vec = dampen_joy_input(move_vec)
 
 	move_vec.x += Input.get_action_strength("strafe_right") - Input.get_action_strength("strafe_left")
@@ -75,8 +75,8 @@ func get_movement_vec():
 
 func get_turn_vec():
 	var turn_vec = Vector3.ZERO
-	turn_vec.x = Input.get_joy_axis(player_no - 1, JOY_ANALOG_RX)
-	turn_vec.y = Input.get_joy_axis(player_no - 1, JOY_ANALOG_RY)
+	turn_vec.x = Input.get_joy_axis(0, JOY_ANALOG_RX)
+	turn_vec.y = Input.get_joy_axis(0, JOY_ANALOG_RY)
 	turn_vec = dampen_joy_input(turn_vec)
 
 	turn_vec.y += mouse_movement.y * mouse_sensitivity

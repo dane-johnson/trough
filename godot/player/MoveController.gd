@@ -15,6 +15,8 @@ export(float) var gravity = ProjectSettings.get_setting("physics/3d/default_grav
 export(float) var jump_power = 20
 export(float) var grip = 50.0
 
+var last_transform: Transform
+
 var body
 
 func _ready():
@@ -28,7 +30,8 @@ func init(_body: KinematicBody):
 
 func _physics_process(delta):
 	if not body.local:
-		return ##TODO
+		body.transform = body.transform.interpolate_with(last_transform, delta * 10.0)
+		return
 	var cur_move_vec = move_vec
 	if not on_ladder:
 		if not ignore_rotation:
@@ -63,7 +66,7 @@ func _physics_process(delta):
 		var coll = body.move_and_collide(up * ladder_speed * delta)
 		if coll and up.y < 0:
 			on_ladder = false
-	rpc("cmd_set_transform", body.global_transform)
+	rpc("cmd_set_transform", body.transform)
 
-puppet func cmd_set_transform(gt):
-	body.global_transform = gt
+puppet func cmd_set_transform(t):
+	last_transform = t
